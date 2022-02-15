@@ -6,6 +6,8 @@ import json
     
 
 output_path = "output"
+if not os.path.isdir(output_path):
+    os.mkdir(output_path)
 REDIRECT_URI = "http://localhost:7777/callback"
 SCOPE = "user-read-recently-played"
 
@@ -370,7 +372,7 @@ def pipeline(input = "MyData"):
     None
 
     """
-    streams_df = create_streams_df(input)
+    streams_df = create_streams_df(input)[:100]
     create_streaming_history(streams_df)
     album_dict, album_mapping = create_album_lookup(streams_df)
     artist_dict = create_artist_lookup(streams_df)
@@ -384,6 +386,6 @@ def pipeline(input = "MyData"):
     return None
 
 if __name__ == "__main__":
-    artist_dict, album_dict, track_lookup = pipeline()
+    pipeline()
 
 
