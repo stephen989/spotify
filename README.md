@@ -1,6 +1,11 @@
 # spotify
 Parse Spotify listening history files and retrieve the relevant track, album, artist and genre info using Spotipy, a Python Spotify API wrapper
 
+## about
+By emailing privacy@spotify.com, your entire Spotify activity can be downloaded. Amongst the creepy location info, there's a series of files containing your entire listening history. The project extracts the relevant info from these files and uses Spotipy to gather all relevant necessary supporting information about the tracks in it, outputting them in clean .csv files.
+
+Spotify takes about two weeks to send you the data from when you email them. There is a way to instantly access your previous 90 days activity via the privacy settings, however this data is given in a different format and isn't compatiable with this code.
+
 ## how to run
 To run, change the path argument in __main__ to point from the script location to the directory containing the spotify listening history files.
 
