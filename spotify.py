@@ -372,7 +372,7 @@ def pipeline(input = "MyData"):
     None
 
     """
-    streams_df = create_streams_df(input)[:100]
+    streams_df = create_streams_df(input)
     create_streaming_history(streams_df)
     album_dict, album_mapping = create_album_lookup(streams_df)
     artist_dict = create_artist_lookup(streams_df)
