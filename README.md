@@ -16,8 +16,10 @@ The script creates a directory called output, containing 6 csv files.
 Details of each albums columns can be found in the docstring of the function that creates each one.
 
 ## notes
-The outputted data is almost unnecessarily lean and avoids duplication of data through use of lookup tables as this was done as a learning exercise. This makes the data hard to read on its own - for example, the history file contains only the track ids, not the names. Sorry.
+The outputted data is unnecessarily lean and avoids duplication of data through use of lookup tables as this was done as a learning exercise. This makes the data hard to read on its own - for example, the history file contains only the track ids, not the names. Sorry.
 
 Spotify's search sucks.
 
 For 50,000 tracks, the code takes approximately 15 minutes to run. This is almost entirely due to the album information retrieval. Due to mismatches in data explained in the code and having to query one album at a time through manual searches, only about 10 albums can be done per second.
+
+The required packages are spotipy, pandas, time, os, json.
