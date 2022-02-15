@@ -7,7 +7,7 @@ By emailing privacy@spotify.com, your entire Spotify activity can be downloaded.
 Spotify takes about two weeks to send you the data from when you email them. There is a way to instantly access your previous 90 days activity via the privacy settings, however this data is given in a different format and isn't compatiable with this code.
 
 ## how to run
-To run, change the path argument in __main__ to point from the script location to the directory containing the spotify listening history files.
+To run, change the path argument in __main__ to point from the script location to the directory containing the spotify listening history files. Changing line 375 to streams_df = create_streams_df(input)[:100] to check it can run on your last 100 streams may also be a good idea.
 
 ## output
 The script creates a directory called output, containing 6 csv files.
