@@ -95,7 +95,7 @@ def create_streaming_history(streams_df):
     columns = ["track_id", "time", "artist_name", "album_name"]
     streaming_history = streams_df[columns]
     streaming_history.set_index("time", drop=True, inplace=True)
-    streaming_history.index = streaming_history.index.strftime("%d/%m/%Y %H:%M:S")
+    streaming_history.index = streaming_history.index.strftime("%d/%m/%Y %H:%M:%S")
     streaming_history.to_csv(os.path.join(output_path, "streaming_history.csv"))
     print(f"streaming history written to {os.path.join(output_path, 'streaming_history.csv')}")
     return None
@@ -124,10 +124,13 @@ def get_alternate_album(track, artist, sp):
     """
     results = sp.search(q = f"artist:{artist} track:{track}", type = "track",
                        limit = 5)["tracks"]["items"]
-    names_ids = [(res["album"]["name"], res["album"]["id"]) for res in results]
-    for name, id in names_ids:
-        if (name != track):# and (sp.album(id)["album_type"] == "album"):
-            return name, id
+    try:
+        names_ids = [(res["album"]["name"], res["album"]["id"]) for res in results]
+        for name, id in names_ids:
+            if (name != track):# and (sp.album(id)["album_type"] == "album"):
+                return name, id
+    except:
+        pass
         
     return track, None
 
@@ -356,6 +359,8 @@ def create_genres_lookup(artist_dict):
     genres_df = pd.DataFrame(False, index = [artist_dict[artist]["artist_id"] for artist in artist_dict.keys()], columns = all_genres)
     for artist in artist_dict.keys():
         genres_df.loc[artist_dict[artist]["artist_id"], artist_dict[artist]["genres"]] = True
+    genres_df = genres_df.T.drop_duplicates().T
+    genres_df = genres_df[genres_df.sum().sort_values(ascending=False)[:50].index]
     genres_df.to_csv(os.path.join(output_path, "genre_lookup.csv"))
     print(f"genres lookup written to {os.path.join(output_path, 'genre_lookup.csv')}")
     return None
@@ -376,16 +381,16 @@ def pipeline(input = "MyData"):
     create_streaming_history(streams_df)
     album_dict, album_mapping = create_album_lookup(streams_df)
     artist_dict = create_artist_lookup(streams_df)
-    create_genres_lookup(artist_dict)
+    genres_df = create_genres_lookup(artist_dict)
     track_lookup = create_track_lookup(streams_df,
                                         artist_dict,
                                         album_dict,
                                         album_mapping)
     print("congratulation.")
-    # return artist_dict, album_dict, track_lookup
+    # return artist_dict, album_dict, track_lookup, genres_df
     return None
 
 if __name__ == "__main__":
+    # artist_dict, album_dict, track_lookup, genres_df = pipeline()
     pipeline()
-
 
